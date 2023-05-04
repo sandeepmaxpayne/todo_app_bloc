@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app_bloc/bloc/counter/bloc_imports.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,10 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: Text(
-                'Counter Value: $counterValue',
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              child: BlocBuilder<CounterBloc, CounterState>(
+                builder: (BuildContext context, state) => Text(
+                  'Counter Value: ${state.counterValue}',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const SizedBox(
@@ -50,7 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () => decreaseNumber(),
+                      onPressed: () => context
+                          .read<CounterBloc>()
+                          .add(CounterDecrementEvent()),
                       icon: const Icon(Icons.remove),
                       label: const Text('Decrease'),
                     ),
@@ -60,7 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () => increaseNumber(),
+                      onPressed: () => context
+                          .read<CounterBloc>()
+                          .add(CounterDecrementEvent()),
                       icon: const Icon(Icons.add),
                       label: const Text('Increase'),
                     ),
